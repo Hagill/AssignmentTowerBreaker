@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Monster : Character
@@ -22,6 +23,8 @@ public class Monster : Character
     public float DieFlySpeed => dieFlySpeed;
     public MonsterIdleState IdleState { get; private set; }
     public MonsterDieState DieState { get; private set; }
+
+    public event Action OnMonsterDied;
 
     protected override void Awake()
     {
@@ -59,5 +62,15 @@ public class Monster : Character
             Die();
         }
         cameraShaker.ShakeCamera(shakePower, shakeDuration);
+    }
+
+    public void InvokeOnMonsterDied()
+    {
+        OnMonsterDied?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        OnMonsterDied = null;
     }
 }

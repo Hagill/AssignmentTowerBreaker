@@ -12,6 +12,7 @@ public class MonsterDieState : CharacterDieState<Monster>
         character.MonsterRb.constraints = RigidbodyConstraints2D.None;
         character.MonsterGroup.Monsters.Remove(character);
         character.MonsterGroup.ResizeCollider();
+        character.InvokeOnMonsterDied();
         character.StartCoroutine(DieAnimation());
     }
 
@@ -23,6 +24,7 @@ public class MonsterDieState : CharacterDieState<Monster>
         character.MonsterRb.AddForce(direction * character.DieFlySpeed, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(character.DieFlyTime);
+
         Object.Destroy(character.gameObject);
     }
 }

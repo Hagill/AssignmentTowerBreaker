@@ -4,6 +4,7 @@ public class BackgroundLooper : MonoBehaviour
 {
     [SerializeField] private int backgroundCount;
     [SerializeField] private LayerMask backgroundLayer;
+    [SerializeField] private LayerMask stageLayer;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -17,6 +18,11 @@ public class BackgroundLooper : MonoBehaviour
             pos.x += backgroundWidth * backgroundCount;
             collision.transform.position = pos;
             return;
+        }
+
+        if (((1 << currentGameObject.layer) &  stageLayer) != 0)
+        {
+            Destroy(currentGameObject);
         }
     }
 }

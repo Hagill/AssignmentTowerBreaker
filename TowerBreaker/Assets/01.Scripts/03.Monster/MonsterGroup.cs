@@ -1,6 +1,8 @@
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class MonsterGroup : MonoBehaviour
@@ -20,16 +22,17 @@ public class MonsterGroup : MonoBehaviour
 
     private Coroutine coroutine;
     private List<Monster> monsters = new List<Monster>(); // 군집내 몬스터
-    
+
+    private bool isKnockback;
+
     public List<Monster> Monsters => monsters;
+
+    public event Action OnAllMonsterDie;
 
     private void Awake()
     {
         groupCollider = GetComponent<BoxCollider2D>();
-    }
-
-    private void OnEnable()
-    {
+        isKnockback = false;
     }
 
     void Start()
@@ -40,7 +43,7 @@ public class MonsterGroup : MonoBehaviour
 
         for(int i = 0; i < monsterCount; i++)
         {
-            int randomIndex = Random.Range(0, monsterPrefabs.Count);
+            int randomIndex = UnityEngine.Random.Range(0, monsterPrefabs.Count);
             Vector3 spawnPosition = new Vector3(startPosition.x + i * spawnXOffset, startPosition.y, startPosition.z);
 
             GameObject monsterObject = Instantiate(monsterPrefabs[randomIndex], spawnPosition, Quaternion.identity, transform);
@@ -49,6 +52,7 @@ public class MonsterGroup : MonoBehaviour
             if (monsterComponent != null)
             {
                 monsters.Add(monsterComponent);
+                monsterComponent.OnMonsterDied += CheckAllMonsterDie;
             }
         }
 
@@ -57,7 +61,7 @@ public class MonsterGroup : MonoBehaviour
 
     void Update()
     {
-        if (gameManager.isWaiting == false)
+        if (!gameManager.isWaiting && !isKnockback)
         {
             MoveGroup();
         }
@@ -99,7 +103,7 @@ public class MonsterGroup : MonoBehaviour
         {
             StopCoroutine(coroutine);
         }
-
+        isKnockback = true;
         coroutine = StartCoroutine(KnockbackCoroutine(Vector2.right, knockbackDistance, knockbackDuration));
     }
 
@@ -116,5 +120,19 @@ public class MonsterGroup : MonoBehaviour
             yield return null;
         }
         groupTransform.position = knockbackPosition;
+        isKnockback = false;
+    }
+
+    public void CheckAllMonsterDie()
+    {
+        if (monsters.Count == 0)
+        {
+            OnAllMonsterDie?.Invoke();
+        }
+    }
+
+    private void OnDisable()
+    {
+        OnAllMonsterDie = null;
     }
 }

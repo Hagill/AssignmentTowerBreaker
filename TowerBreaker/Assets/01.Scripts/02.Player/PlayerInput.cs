@@ -13,7 +13,7 @@ public class PlayerInput : MonoBehaviour
 
     public void OnMoveKey(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && !GameManager.Instance.isStageClear)
         {
             CheckWaiting();
             player.Move();
@@ -22,7 +22,7 @@ public class PlayerInput : MonoBehaviour
 
     public void OnDefenceKey(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && !GameManager.Instance.isStageClear)
         {
             //레이캐스트, 일정거리(방어가능거리)까지 레이를 쏴서 몬스터 군집이 존재하면 방어하도록
             //
@@ -31,13 +31,7 @@ public class PlayerInput : MonoBehaviour
 
     public void OnAttackKey(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
-        {
-            CheckWaiting();
-            player.AttackAnimation();
-        }
-
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Started && !GameManager.Instance.isStageClear)
         {
             CheckWaiting();
             player.AttackAnimation();

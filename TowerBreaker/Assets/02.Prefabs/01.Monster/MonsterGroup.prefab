@@ -96,9 +96,11 @@ MonoBehaviour:
   - {fileID: 5644665283859598001, guid: 30a347cc38bff83419fbe88bbad0fa83, type: 3}
   - {fileID: 7434647891578224454, guid: 32dfd1bc5b96bbb4faea088bf750ca9c, type: 3}
   monsterCount: 11
-  moveSpeed: 1
+  moveSpeed: 2
   spawnXOffset: 1.1
   groupTransform: {fileID: 6650568231622361820}
   groupCollider: {fileID: 8442208794756721552}
   colliderY: 1.5
   monsterHalfSizeX: 0.75
+  knockbackDistance: 2
+  knockbackDuration: 0.5

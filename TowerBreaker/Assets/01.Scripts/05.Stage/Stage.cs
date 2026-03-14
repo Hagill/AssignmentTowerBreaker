@@ -1,19 +1,26 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
     private int currentStage;
-    [SerializeField] private StageManager stageManager;
-    [SerializeField] private BoxCollider2D triggerPoint;
+    private StageManager stageManager;
     [SerializeField] private Transform playerSpawnPoint;
     [SerializeField] private Transform monsterSpawnPoint;
     [SerializeField] private Transform bossSpawnPoint;
-    [SerializeField] private GameObject monsterGroup;
+    [SerializeField] private GameObject monsterGroupGO;
     [SerializeField] private List<GameObject> bossMonsterPrefabs;
     [SerializeField] private LayerMask playerLayer;
 
+    private MonsterGroup monsterGroup;
+
+    public Transform PlayerSpawnPoint => playerSpawnPoint;
+
     private bool isEnter;
+
+    public event Action OnStageClear;
 
     private void Awake()
     {
@@ -22,7 +29,8 @@ public class Stage : MonoBehaviour
 
     void Start()
     {
-        currentStage = stageManager.CurrentStage;
+        currentStage = stageManager.CurrentStageNumber;
+
         if (currentStage == 1)
         {
             isEnter = true;
@@ -34,14 +42,16 @@ public class Stage : MonoBehaviour
         }*/
     }
 
-    void Update()
+    public void InitStageManager(StageManager stageManager)
     {
-        
+        this.stageManager = stageManager;
     }
 
     public void SpawnMonster()
     {
-        Instantiate(monsterGroup, monsterSpawnPoint.position, Quaternion.identity);
+        GameObject monsterGroupInstance = Instantiate(monsterGroupGO, monsterSpawnPoint.position, Quaternion.identity);
+        monsterGroup = monsterGroupInstance.GetComponent<MonsterGroup>();
+        monsterGroup.OnAllMonsterDie += StageClear;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -53,6 +63,7 @@ public class Stage : MonoBehaviour
             if (!isEnter)
             {
                 isEnter = true;
+                GameManager.Instance.GameStartWithWaiting();
                 SpawnMonster();
             }
             else
@@ -64,5 +75,16 @@ public class Stage : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void StageClear()
+    {
+        Debug.Log("스테이지클리어");
+        OnStageClear?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        monsterGroup.OnAllMonsterDie -= StageClear;
     }
 }

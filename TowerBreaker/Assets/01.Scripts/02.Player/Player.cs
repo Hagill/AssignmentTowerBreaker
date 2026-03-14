@@ -48,6 +48,11 @@ public class Player : Character
         playerStateManager.ChangeState(IdleState);
     }
 
+    private void OnDisable()
+    {
+        OnDie = null;
+    }
+
     protected override void Update()
     {
         playerStateManager.Update();
@@ -101,5 +106,11 @@ public class Player : Character
         playerStateManager.ChangeState(HitState);
         cameraShaker.ShakeCamera(shakePower, shakeDuration);
         OnHit?.Invoke();
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        OnDie?.Invoke();
     }
 }

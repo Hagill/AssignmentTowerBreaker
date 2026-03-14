@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : SingletonManager<GameManager>
@@ -6,14 +7,14 @@ public class GameManager : SingletonManager<GameManager>
     private bool isStart;
     public bool isPaused { get; private set; }
     public bool isWaiting { get; private set; }
-
-    public event Action OnGameOver;
+    public bool isStageClear { get; private set; }
 
     public void GameStartWithWaiting()
     {
         isStart = true;
         isPaused = false;
         isWaiting = true;
+        isStageClear = false;
         Time.timeScale = 1f;
     }
 
@@ -24,7 +25,14 @@ public class GameManager : SingletonManager<GameManager>
 
     public void GameWaiting()
     {
+        Debug.Log($"isWaiting: {isWaiting} 설정 전");
         isWaiting = true;
+        Debug.Log($"isWaiting: {isWaiting} 설정 후");
+    }
+
+    public void StageClear()
+    {
+        isStageClear = true;
     }
 
     public void GamePause()
@@ -43,6 +51,6 @@ public class GameManager : SingletonManager<GameManager>
 
     public void GameOver()
     {
-        OnGameOver?.Invoke();
+        
     }
 }
