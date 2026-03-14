@@ -11,16 +11,16 @@ public class PlayerInput : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMoveKey(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
         {
             CheckWaiting();
-            playerRb.AddForce(Vector2.right * player.PlayerData.characterData.moveSpeed, ForceMode2D.Impulse);
+            player.Move();
         }
     }
 
-    public void OnDefence(InputAction.CallbackContext context)
+    public void OnDefenceKey(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
         {
@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnAttackKey(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
         {

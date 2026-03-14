@@ -557,7 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBar: {fileID: 1112916743}
   progressText: {fileID: 742516922}
-  minWaitingTime: 2
+  minWaitingTime: 0.5
 --- !u!4 &940237781
 Transform:
   m_ObjectHideFlags: 0

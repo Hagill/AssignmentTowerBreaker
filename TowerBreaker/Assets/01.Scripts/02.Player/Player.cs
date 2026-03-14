@@ -59,7 +59,7 @@ public class Player : Character
         }
     }
 
-    public void Attack()
+    public void OnAttack()
     {
         Vector2 direction = Vector2.right;
 
@@ -78,5 +78,11 @@ public class Player : Character
     public void AttackAnimation()
     {
         animator.SetTrigger(AttackAnim);
+    }
+
+    public void Move()
+    {
+        animator.SetTrigger(MoveAnim);
+        playerRb.AddForce(Vector2.right * playerData.characterData.moveSpeed, ForceMode2D.Impulse);
     }
 }

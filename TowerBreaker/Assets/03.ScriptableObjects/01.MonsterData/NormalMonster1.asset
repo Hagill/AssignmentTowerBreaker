@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfb87a1909cefa64a9d4ed1741a82169, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: d9f3e0fced8f2f94999a7515fc65d65d, type: 3}
+  m_Name: NormalMonster1
   m_EditorClassIdentifier: 
   characterData:
-    moveSpeed: 15
-    maxHp: 3
-  attackPoint: 5
-  knockBackValue: 5
-  attackSpeed: 0.5
+    moveSpeed: 0
+    maxHp: 6
+  defencePoint: 0
