@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4695777383883446688}
   - component: {fileID: 6412974979029442752}
   - component: {fileID: 953774412276733528}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: NormalMonster1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,9 @@ MonoBehaviour:
   monsterData: {fileID: 11400000, guid: 297c3115f9588f145ae4902132af03c3, type: 2}
   animator: {fileID: 953774412276733528}
   dieFlyTime: 2
-  dieFlySpeed: 8
+  dieFlySpeed: 10
+  shakeDuration: 0.2
+  shakePower: 3
 --- !u!95 &953774412276733528
 Animator:
   serializedVersion: 7

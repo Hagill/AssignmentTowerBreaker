@@ -14,11 +14,17 @@ public class GameManager : SingletonManager<GameManager>
         isStart = true;
         isPaused = false;
         isWaiting = true;
+        Time.timeScale = 1f;
     }
 
     public void GameActive()
     {
         isWaiting = false;
+    }
+
+    public void GameWaiting()
+    {
+        isWaiting = true;
     }
 
     public void GamePause()

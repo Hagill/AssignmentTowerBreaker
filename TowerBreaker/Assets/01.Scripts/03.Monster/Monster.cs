@@ -8,6 +8,10 @@ public class Monster : Character
     [SerializeField] private Animator animator;
     [SerializeField] private float dieFlyTime;  // 사망시 날라가는 연출 시간
     [SerializeField] private float dieFlySpeed; // 사망시 날라가는 속도
+    
+    private CameraShaker cameraShaker;
+    [SerializeField] private float shakeDuration;
+    [SerializeField] private float shakePower;
 
     private MonsterGroup monsterGroup;
 
@@ -31,6 +35,7 @@ public class Monster : Character
     protected override void Start()
     {
         base.Start();
+        cameraShaker = Camera.main.GetComponent<CameraShaker>();
         monsterGroup = GetComponentInParent<MonsterGroup>();
     }
     public override void Die()
@@ -41,7 +46,7 @@ public class Monster : Character
     public override void TakeDamage(float damage)
     {
         float currentDamage = damage - monsterData.defencePoint;
-        if (currentDamage <= 0) currentDamage = 0f;
+        if (currentDamage <= 0) return;
 
         Hp -= currentDamage;
         if (Hp <= 0)
@@ -49,5 +54,7 @@ public class Monster : Character
             Hp = 0;
             Die();
         }
+
+        cameraShaker.ShakeCamera(shakePower, shakeDuration);
     }
 }

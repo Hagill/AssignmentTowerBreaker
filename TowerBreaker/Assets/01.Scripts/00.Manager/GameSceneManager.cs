@@ -21,8 +21,9 @@ public class GameSceneManager : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
+        gameManager.GameStartWithWaiting();
 
-        if(pauseButton != null)
+        if (pauseButton != null)
         {
             pauseButton.onClick.AddListener(OnGamePauseClicked);
         }

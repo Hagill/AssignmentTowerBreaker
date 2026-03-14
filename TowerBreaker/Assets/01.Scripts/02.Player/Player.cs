@@ -6,6 +6,7 @@ public class Player : Character
 {
     private GameManager gameManager;
 
+    private CameraShaker cameraShaker;
     private CharacterStateManager<Player> playerStateManager;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerData playerData;
@@ -14,6 +15,8 @@ public class Player : Character
     [SerializeField] private Animator animator;
     [SerializeField] private LayerMask monsterLayer;    // 몬스터 레이어
     [SerializeField] private Transform attackPosition;  // 공격 시작 위치
+    [SerializeField] private float shakeDuration;
+    [SerializeField] private float shakePower;
 
     public event Action OnHit;
     public event Action OnDie;
@@ -36,6 +39,7 @@ public class Player : Character
     protected override void Start()
     {
         gameManager = GameManager.Instance;
+        cameraShaker = Camera.main.GetComponent<CameraShaker>();
         playerStateManager.ChangeState(IdleState);
     }
 
@@ -84,5 +88,11 @@ public class Player : Character
     {
         animator.SetTrigger(MoveAnim);
         playerRb.AddForce(Vector2.right * playerData.characterData.moveSpeed, ForceMode2D.Impulse);
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        cameraShaker.ShakeCamera(shakePower, shakeDuration);
     }
 }

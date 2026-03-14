@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 127912153}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.8, y: 0, z: 0}
+  m_LocalPosition: {x: 76.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -979,6 +979,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1140,6 +1141,19 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68164ee70f3104f429e430a9d30e4e07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 2050186077}
 --- !u!1 &595993923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,7 +1344,7 @@ Transform:
   m_GameObject: {fileID: 667420926}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1668,7 +1682,7 @@ Transform:
   m_GameObject: {fileID: 938706919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.6, y: 0, z: 0}
+  m_LocalPosition: {x: 57.6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1912,6 +1926,7 @@ GameObject:
   - component: {fileID: 1390458491}
   - component: {fileID: 1390458490}
   - component: {fileID: 1390458489}
+  - component: {fileID: 1390458492}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1995,6 +2010,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1390458492
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390458487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: -588.22876, y: 358.5896, z: -950.2571}
 --- !u!1 &1397964402
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,7 +2267,7 @@ MonoBehaviour:
   - {fileID: 5644665283859598001, guid: 30a347cc38bff83419fbe88bbad0fa83, type: 3}
   - {fileID: 7434647891578224454, guid: 32dfd1bc5b96bbb4faea088bf750ca9c, type: 3}
   monsterCount: 11
-  moveSpeed: 0.5
+  moveSpeed: 1
   spawnXOffset: 1.1
   groupTransform: {fileID: 1516574415}
   groupCollider: {fileID: 1516574413}
@@ -2268,7 +2300,7 @@ Transform:
   m_GameObject: {fileID: 1583925994}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.2, y: 0, z: 0}
+  m_LocalPosition: {x: 19.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2646,7 +2678,7 @@ Transform:
   m_GameObject: {fileID: 1949993053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.4, y: 0, z: 0}
+  m_LocalPosition: {x: 38.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2935,10 +2967,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 825388142253409094, guid: 106332dd51d8f5945a9b61c428883c31, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5154453157424222406, guid: 106332dd51d8f5945a9b61c428883c31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.8
