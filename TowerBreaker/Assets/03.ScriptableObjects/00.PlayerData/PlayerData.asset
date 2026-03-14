@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   characterData:
-    moveSpeed: 15
+    moveSpeed: 20
     maxHp: 3
   attackPoint: 5
   knockBackValue: 5
   attackCooldown: 0.3
   attackRange: 1
+  defenceRange: 0.8

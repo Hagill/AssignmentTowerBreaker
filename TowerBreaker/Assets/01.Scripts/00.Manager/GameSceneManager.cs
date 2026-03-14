@@ -41,7 +41,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void OnGamePauseClicked()
     {
-        gameManager.GamePause();
+        gameManager.GameExit();
         popupPanel.SetActive(true);
     }
 

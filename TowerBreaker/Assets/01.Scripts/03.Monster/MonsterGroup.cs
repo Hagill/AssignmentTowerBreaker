@@ -99,11 +99,13 @@ public class MonsterGroup : MonoBehaviour
 
     public void Knockback()
     {
+        isKnockback = true;
+
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
-        isKnockback = true;
+        
         coroutine = StartCoroutine(KnockbackCoroutine(Vector2.right, knockbackDistance, knockbackDuration));
     }
 

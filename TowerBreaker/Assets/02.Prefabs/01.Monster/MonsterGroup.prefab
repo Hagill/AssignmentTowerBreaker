@@ -102,5 +102,5 @@ MonoBehaviour:
   groupCollider: {fileID: 8442208794756721552}
   colliderY: 1.5
   monsterHalfSizeX: 0.75
-  knockbackDistance: 2
-  knockbackDuration: 0.5
+  knockbackDistance: 3
+  knockbackDuration: 0.15

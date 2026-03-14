@@ -72,6 +72,7 @@ public class Stage : MonoBehaviour
                 if ( player != null)
                 {
                     player.TakeDamage(1);
+                    monsterGroup.Knockback();
                 }
             }
         }

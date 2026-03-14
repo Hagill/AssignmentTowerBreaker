@@ -25,9 +25,7 @@ public class GameManager : SingletonManager<GameManager>
 
     public void GameWaiting()
     {
-        Debug.Log($"isWaiting: {isWaiting} 설정 전");
         isWaiting = true;
-        Debug.Log($"isWaiting: {isWaiting} 설정 후");
     }
 
     public void StageClear()
@@ -45,6 +43,12 @@ public class GameManager : SingletonManager<GameManager>
     public void GameContinue()
     {
         isStart = true;
+        isPaused = false;
+        Time.timeScale = 1f;
+    }
+
+    public void GameExit()
+    {
         isPaused = false;
         Time.timeScale = 1f;
     }

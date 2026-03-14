@@ -1,13 +1,15 @@
 using System;
+using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static ConstValue;
 
 public class Player : Character
 {
     private GameManager gameManager;
-
     private CameraShaker cameraShaker;
     private CharacterStateManager<Player> playerStateManager;
+    [SerializeField] private StageManager stageManager;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerData playerData;
     // [SerializeField] private PlayerInventory playerInventory;
@@ -17,6 +19,9 @@ public class Player : Character
     [SerializeField] private Transform attackPosition;  // 공격 시작 위치
     [SerializeField] private float shakeDuration;
     [SerializeField] private float shakePower;
+    [SerializeField] private float knockbackDuration;
+
+    private bool isKnockback;
 
     public event Action OnHit;
     public event Action OnDie;
@@ -39,6 +44,8 @@ public class Player : Character
         {
             InitCharacterData(playerData.characterData);
         }
+
+        isKnockback = false;
     }
 
     protected override void Start()
@@ -71,6 +78,48 @@ public class Player : Character
         {
             playerRb.linearVelocity = Vector2.zero;
         }
+    }
+
+    public void Defence()
+    {
+        Vector2 direction = Vector2.right;
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(attackPosition.position, direction, playerData.defenceRange, monsterLayer);
+
+        if (hits.Length > 0)
+        {
+            MonsterGroup group = hits[0].collider.GetComponent<MonsterGroup>();
+            group.Knockback();
+            PlayerKnockback();
+        }
+    }
+
+    public void PlayerKnockback()
+    {
+        if (!isKnockback)
+        {
+            Vector3 targetPosition = new Vector3(stageManager.CurrentStage.PlayerSpawnPoint.position.x, transform.position.y, transform.position.z);
+            StartCoroutine(PlayerKnockbackCoroutine(targetPosition ,knockbackDuration));
+        }
+    }
+
+    private IEnumerator PlayerKnockbackCoroutine(Vector3 targetPosition, float duration)
+    {
+        isKnockback = true;
+
+        Vector3 startPosition = playerRb.position;
+        
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, timer / duration);
+            playerRb.MovePosition(newPosition);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        playerRb.MovePosition(targetPosition);
+        isKnockback = false;
     }
 
     public void OnAttack()

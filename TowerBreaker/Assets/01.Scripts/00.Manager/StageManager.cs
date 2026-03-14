@@ -16,6 +16,7 @@ public class StageManager : MonoBehaviour
     private int currentStageNumber;
 
     public int CurrentStageNumber => currentStageNumber;
+    public Stage CurrentStage => currentStage;
 
     private void Awake()
     {

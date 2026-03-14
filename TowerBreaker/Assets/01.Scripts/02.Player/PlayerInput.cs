@@ -24,8 +24,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && !GameManager.Instance.isStageClear)
         {
-            //레이캐스트, 일정거리(방어가능거리)까지 레이를 쏴서 몬스터 군집이 존재하면 방어하도록
-            //
+            CheckWaiting();
+            player.Defence();
         }
     }
 
