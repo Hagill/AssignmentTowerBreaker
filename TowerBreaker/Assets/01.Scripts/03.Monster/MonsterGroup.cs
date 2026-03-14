@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +15,10 @@ public class MonsterGroup : MonoBehaviour
     [SerializeField] private BoxCollider2D groupCollider;
     [SerializeField] private float colliderY;
     [SerializeField] private float monsterHalfSizeX;
+    [SerializeField] private float knockbackDistance;
+    [SerializeField] private float knockbackDuration;
 
+    private Coroutine coroutine;
     private List<Monster> monsters = new List<Monster>(); // 군집내 몬스터
     
     public List<Monster> Monsters => monsters;
@@ -22,6 +26,10 @@ public class MonsterGroup : MonoBehaviour
     private void Awake()
     {
         groupCollider = GetComponent<BoxCollider2D>();
+    }
+
+    private void OnEnable()
+    {
     }
 
     void Start()
@@ -55,6 +63,7 @@ public class MonsterGroup : MonoBehaviour
         }
     }
 
+    // 몬스터 군집의 Collider 조정
     public void ResizeCollider()
     {
         if (monsters.Count == 0)
@@ -82,5 +91,30 @@ public class MonsterGroup : MonoBehaviour
     public void MoveGroup()
     {
         groupTransform.position += Vector3.left * moveSpeed * Time.deltaTime;
+    }
+
+    public void Knockback()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+
+        coroutine = StartCoroutine(KnockbackCoroutine(Vector2.right, knockbackDistance, knockbackDuration));
+    }
+
+    private IEnumerator KnockbackCoroutine(Vector3 direction, float distance, float duration)
+    {
+        Vector3 startPosition = groupTransform.position;
+        Vector3 knockbackPosition = startPosition + direction.normalized * distance;
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            groupTransform.position = Vector3.Lerp(startPosition, knockbackPosition, timer / duration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        groupTransform.position = knockbackPosition;
     }
 }

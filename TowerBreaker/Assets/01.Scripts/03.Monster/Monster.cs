@@ -21,15 +21,18 @@ public class Monster : Character
     public float DieFlyTime => dieFlyTime;
     public float DieFlySpeed => dieFlySpeed;
     public MonsterIdleState IdleState { get; private set; }
-    public MonsterActiveState ActiveState { get; private set; }
     public MonsterDieState DieState { get; private set; }
 
     protected override void Awake()
     {
         monsterStateManager = new CharacterStateManager<Monster>(this);
         IdleState = new MonsterIdleState(this, monsterStateManager);
-        ActiveState = new MonsterActiveState(this, monsterStateManager);
         DieState = new MonsterDieState(this, monsterStateManager);
+
+        if (monsterData != null)
+        {
+            InitCharacterData(monsterData.characterData);
+        }
     }
 
     protected override void Start()
@@ -38,6 +41,7 @@ public class Monster : Character
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
         monsterGroup = GetComponentInParent<MonsterGroup>();
     }
+
     public override void Die()
     {
         monsterStateManager.ChangeState(DieState);
@@ -54,7 +58,6 @@ public class Monster : Character
             Hp = 0;
             Die();
         }
-
         cameraShaker.ShakeCamera(shakePower, shakeDuration);
     }
 }

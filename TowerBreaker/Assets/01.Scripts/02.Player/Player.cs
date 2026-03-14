@@ -23,8 +23,8 @@ public class Player : Character
 
     public GameManager GameManager => gameManager;
     public PlayerData PlayerData => playerData;
+    public Rigidbody2D PlayerRb => playerRb;
     public PlayerIdleState IdleState { get; private set; }
-    public PlayerActiveState ActiveState { get; private set; }
     public PlayerHitState HitState { get; private set; }
     public PlayerDieState DieState { get; private set; }
 
@@ -32,10 +32,15 @@ public class Player : Character
     {
         playerStateManager = new CharacterStateManager<Player>(this);
         IdleState = new PlayerIdleState(this, playerStateManager);
-        ActiveState = new PlayerActiveState(this, playerStateManager);
         HitState = new PlayerHitState(this, playerStateManager);
         DieState = new PlayerDieState(this, playerStateManager);
+
+        if (playerData != null)
+        {
+            InitCharacterData(playerData.characterData);
+        }
     }
+
     protected override void Start()
     {
         gameManager = GameManager.Instance;
@@ -93,6 +98,8 @@ public class Player : Character
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
+        playerStateManager.ChangeState(HitState);
         cameraShaker.ShakeCamera(shakePower, shakeDuration);
+        OnHit?.Invoke();
     }
 }

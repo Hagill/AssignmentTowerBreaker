@@ -13,12 +13,4 @@ public class MonsterIdleState : CharacterIdleState<Monster>
     {
         monsterRb.linearVelocity = Vector2.zero;
     }
-
-    public override void UpdateState()
-    {
-        if (GameManager.Instance.isWaiting == false)
-        {
-            stateManager.ChangeState(monster.ActiveState);
-        }
-    }
 }
