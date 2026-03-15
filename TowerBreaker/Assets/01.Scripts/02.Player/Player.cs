@@ -8,15 +8,16 @@ public class Player : Character
 {
     private GameManager gameManager;
     private CameraShaker cameraShaker;
+    private InventoryManager inventoryManager;
     private CharacterStateManager<Player> playerStateManager;
     [SerializeField] private GameSceneManager gameSceneManager;
     [SerializeField] private StageManager stageManager;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerData playerData;
-    // [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private Rigidbody2D playerRb;
     [SerializeField] private Animator animator;
     [SerializeField] private LayerMask monsterLayer;    // 몬스터 레이어
+    [SerializeField] private LayerMask itemLayer;
     [SerializeField] private Transform attackPosition;  // 공격 시작 위치
     [SerializeField] private float shakeDuration;
     [SerializeField] private float shakePower;
@@ -25,6 +26,9 @@ public class Player : Character
     [SerializeField] private float firstSkillDuration;
     [SerializeField] private float secondSkillCooldown;
     [SerializeField] private float thirdSkillCooldown;
+
+    private Item equippedItem;
+    private float equipAttackPoint;
 
     private float currentFirstSkillCooldown;
     private float currentSecondSkillCooldown;
@@ -72,12 +76,19 @@ public class Player : Character
     protected override void Start()
     {
         gameManager = GameManager.Instance;
+        inventoryManager = InventoryManager.Instance;
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
         playerStateManager.ChangeState(IdleState);
         gameSceneManager.ChangeHp(Hp);
         currentFirstSkillCooldown = firstSkillCooldown;
         currentSecondSkillCooldown = secondSkillCooldown;
         currentThirdSkillCooldown = thirdSkillCooldown;
+
+        equippedItem = inventoryManager.GetEquippedItem();
+        if (equippedItem != null)
+        {
+            SumEquipmentAttackPoint(equippedItem.ItemAttackPoint);
+        }
     }
 
     private void OnDisable()
@@ -129,6 +140,15 @@ public class Player : Character
         if (((1<<currentGameObject.layer) & monsterLayer) != 0)
         {
             playerRb.linearVelocity = Vector2.zero;
+        }
+        else if(((1<<currentGameObject.layer) & itemLayer) != 0)
+        {
+            Item currentItem = currentGameObject.GetComponent<Item>();
+            
+            if (currentItem != null)
+            {
+                InventoryManager.Instance.AddItem(currentItem);
+            }
         }
     }
 
@@ -210,14 +230,14 @@ public class Player : Character
             MonsterGroup group = hit.collider.GetComponent<MonsterGroup>();
             if (group != null && group.Monsters.Count > 0)
             {
-                group.Monsters[0].TakeDamage(playerData.attackPoint);
+                group.Monsters[0].TakeDamage(playerData.attackPoint);//equipAttackPoint
                 return;
             }
 
             Monster monster = hit.collider.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.TakeDamage(playerData.attackPoint);
+                monster.TakeDamage(playerData.attackPoint);//equipAttackPoint
                 return;
             }
         }
@@ -258,14 +278,14 @@ public class Player : Character
                 {
                     for (int i = 0; i < group.Monsters.Count; i++)
                     {
-                        group.Monsters[i].TakeDamage(playerData.attackPoint);
+                        group.Monsters[i].TakeDamage(playerData.attackPoint);//equipAttackPoint
                     }
                 }
 
                 Monster monster = hit.collider.GetComponent<Monster>();
                 if (monster != null)
                 {
-                    monster.TakeDamage(playerData.attackPoint);
+                    monster.TakeDamage(playerData.attackPoint);//equipAttackPoint
                 }
             }
         }
@@ -325,5 +345,10 @@ public class Player : Character
     public void ChangeIsHit(bool value)
     {
         isHit = value;
+    }
+
+    public void SumEquipmentAttackPoint(float equipmentAttackPoint)
+    {
+        equipAttackPoint = equipmentAttackPoint + playerData.attackPoint;
     }
 }
