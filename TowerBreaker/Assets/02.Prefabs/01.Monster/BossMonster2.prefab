@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 9034197569941276737}
   - component: {fileID: 1476844637456545087}
   - component: {fileID: 469181538034487438}
-  - component: {fileID: 2259018456859958216}
   - component: {fileID: 5067118266802036371}
+  - component: {fileID: -4098704883851292168}
   m_Layer: 7
   m_Name: BossMonster2
   m_TagString: Untagged
@@ -145,7 +145,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9053954977138135265}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -164,25 +164,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 6
---- !u!114 &2259018456859958216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9053954977138135265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ca6d9748a15edf41b0a1e49e9ec9777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterRb: {fileID: 469181538034487438}
-  monsterData: {fileID: 11400000, guid: b837def2742b9344387ba2dadec1aa54, type: 2}
-  animator: {fileID: 5067118266802036371}
-  dieFlyTime: 2
-  dieFlySpeed: 10
-  shakeDuration: 0.2
-  shakePower: 3
 --- !u!95 &5067118266802036371
 Animator:
   serializedVersion: 7
@@ -205,3 +186,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4098704883851292168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053954977138135265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0b45bb72eb34640b5d268b8145be5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterRb: {fileID: 469181538034487438}
+  monsterData: {fileID: 11400000, guid: 987d85f90160ef145bc113867f5b68de, type: 2}
+  animator: {fileID: 5067118266802036371}
+  dieFlyTime: 2
+  dieFlySpeed: 10
+  shakeDuration: 0.2
+  shakePower: 3
+  IncreaseSpeedValue: 0.1
+  knockbackDistance: 1
+  knockbackDuration: 0.15

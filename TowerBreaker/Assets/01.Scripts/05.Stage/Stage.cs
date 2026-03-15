@@ -16,6 +16,8 @@ public class Stage : MonoBehaviour
     [SerializeField] private int bossStageNumber; // 몇 스테이지마다 출현할 것인지
     private MonsterGroup monsterGroup;
 
+    private BossMonsterBineulI currentBossMonsterBineulI;
+    private BossMonsterChiko currentBossMonsterChiko;
     public Transform PlayerSpawnPoint => playerSpawnPoint;
 
     private bool isEnter;
@@ -73,6 +75,15 @@ public class Stage : MonoBehaviour
             monsterComponent.OnMonsterDied += EventBossDie;
             monsterComponent.ResetMonsterGroup(monsterGroup);
             monsterComponent.SetOriginalPrefab(bossMonsterPrefabs[randomIndex]);
+
+            if (randomIndex == 0)
+            {
+                currentBossMonsterBineulI = monsterComponent.GetComponent<BossMonsterBineulI>();
+            }
+            else if (randomIndex == 1)
+            {
+                currentBossMonsterChiko = monsterComponent.GetComponent<BossMonsterChiko>();
+            }
         }
     }
 
@@ -101,6 +112,14 @@ public class Stage : MonoBehaviour
                     {
                         player.TakeDamage(1);
                         monsterGroup.Knockback();
+                        if (currentBossMonsterBineulI != null)
+                        {
+                            currentBossMonsterBineulI.Knockback();
+                        }
+                        else if (currentBossMonsterChiko != null)
+                        {
+                            currentBossMonsterChiko.Knockback();
+                        }
                     }
                 }
             }

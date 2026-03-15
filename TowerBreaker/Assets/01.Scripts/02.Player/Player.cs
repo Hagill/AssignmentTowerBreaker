@@ -104,10 +104,19 @@ public class Player : Character
                 return;
             }
 
-            BossMonsterBineulI monster = hit.collider.GetComponent<BossMonsterBineulI>();
-            if (monster != null)
+            BossMonsterBineulI bineulI = hit.collider.GetComponent<BossMonsterBineulI>();
+            if (bineulI != null)
             {
-                monster.Knockback();
+                bineulI.Knockback();
+                PlayerKnockback();
+                return;
+            }
+
+            BossMonsterChiko chiko = hit.collider.GetComponent<BossMonsterChiko>();
+            if (chiko != null)
+            {
+                chiko.IncreaseMoveSpeed();
+                chiko.Knockback();
                 PlayerKnockback();
                 return;
             }
