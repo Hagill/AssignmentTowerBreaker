@@ -55,7 +55,6 @@ MonoBehaviour:
   monsterGroupGO: {fileID: 5023509694003627018, guid: 184e7f71bfb26de419bc4c83175f3d3f, type: 3}
   bossMonsterPrefabs:
   - {fileID: 6275407388002726386, guid: 7764fe7d18103b8499e111f9f3d85555, type: 3}
-  - {fileID: 9053954977138135265, guid: 8536b3b4d9f18a245946b0e0963f457d, type: 3}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -26,7 +26,7 @@ public class MonsterGroup : MonoBehaviour
     private bool isKnockback;
 
     public List<Monster> Monsters => monsters;
-
+    public float MoveSpeed => moveSpeed;
 
     public event Action OnAllMonsterDie;
 
@@ -139,6 +139,11 @@ public class MonsterGroup : MonoBehaviour
         {
             OnAllMonsterDie?.Invoke();
         }
+    }
+
+    public void ChangeMoveSpeed(float speedValue)
+    {
+        moveSpeed = speedValue;
     }
 
     private void OnDisable()

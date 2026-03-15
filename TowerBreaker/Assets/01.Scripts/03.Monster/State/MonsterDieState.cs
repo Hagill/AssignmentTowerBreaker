@@ -11,6 +11,7 @@ public class MonsterDieState : CharacterDieState<Monster>
 
     public override void EnterState()
     {
+        character.MonsterRb.bodyType = RigidbodyType2D.Dynamic;
         character.MonsterRb.constraints = RigidbodyConstraints2D.None;
         if (character.MonsterGroup != null)
         {

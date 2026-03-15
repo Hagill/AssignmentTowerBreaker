@@ -8,13 +8,14 @@ public class GameManager : SingletonManager<GameManager>
     public bool isPaused { get; private set; }
     public bool isWaiting { get; private set; }
     public bool isStageClear { get; private set; }
-
+    public bool isGameOver { get; private set; }
     public void GameStartWithWaiting()
     {
         isStart = true;
         isPaused = false;
         isWaiting = true;
         isStageClear = false;
+        isGameOver = false;
         Time.timeScale = 1f;
     }
 
@@ -49,12 +50,17 @@ public class GameManager : SingletonManager<GameManager>
 
     public void GameExit()
     {
+        if (isGameOver)
+        {
+            isGameOver = false;
+        }
         isPaused = false;
         Time.timeScale = 1f;
     }
 
     public void GameOver()
     {
-        
+        isGameOver = true;
+        Time.timeScale = 0f;
     }
 }

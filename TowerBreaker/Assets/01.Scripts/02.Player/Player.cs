@@ -88,9 +88,23 @@ public class Player : Character
 
         if (hits.Length > 0)
         {
-            MonsterGroup group = hits[0].collider.GetComponent<MonsterGroup>();
-            group.Knockback();
-            PlayerKnockback();
+            var hit = hits[0];
+
+            MonsterGroup group = hit.collider.GetComponent<MonsterGroup>();
+            if (group != null)
+            {
+                group.Knockback();
+                PlayerKnockback();
+                return;
+            }
+
+            BossMonsterBineulI monster = hit.collider.GetComponent<BossMonsterBineulI>();
+            if (monster != null)
+            {
+                monster.Knockback();
+                PlayerKnockback();
+                return;
+            }
         }
     }
 
@@ -132,19 +146,19 @@ public class Player : Character
         {
             var hit = hits[0];
 
-            MonsterGroup group = hits[0].collider.GetComponent<MonsterGroup>();
+            MonsterGroup group = hit.collider.GetComponent<MonsterGroup>();
             if (group != null && group.Monsters.Count > 0)
             {
                 group.Monsters[0].TakeDamage(playerData.attackPoint);
                 return;
             }
 
-            /*BossMonster boss = hit.collider.GetComponent<BossMonster>();
-            if (boss != null)
+            Monster monster = hit.collider.GetComponent<Monster>();
+            if (monster != null)
             {
-                boss.TakeDamage(playerData.attackPoint);
+                monster.TakeDamage(playerData.attackPoint);
                 return;
-            }*/
+            }
         }
     }
 

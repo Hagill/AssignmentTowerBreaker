@@ -71,6 +71,7 @@ public class Stage : MonoBehaviour
         {
             monsterComponent.OnMonsterDied -= EventBossDie;
             monsterComponent.OnMonsterDied += EventBossDie;
+            monsterComponent.ResetMonsterGroup(monsterGroup);
             monsterComponent.SetOriginalPrefab(bossMonsterPrefabs[randomIndex]);
         }
     }
@@ -109,6 +110,7 @@ public class Stage : MonoBehaviour
     public void EventBossDie()
     {
         isBossDie = true;
+        StageClear();
     }
 
     public void StageClear()

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1088730337879596125}
   - component: {fileID: 3979879945969874061}
   - component: {fileID: 3234861380894595964}
-  - component: {fileID: 2085523320244310822}
-  - component: {fileID: 671876992671549245}
   - component: {fileID: 4482995080583320837}
+  - component: {fileID: 4594493380578320211}
+  - component: {fileID: 3120945001380936582}
   m_Layer: 7
   m_Name: BossMonster1
   m_TagString: Untagged
@@ -137,52 +137,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
---- !u!50 &2085523320244310822
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6275407388002726386}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 6
---- !u!114 &671876992671549245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6275407388002726386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ca6d9748a15edf41b0a1e49e9ec9777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterRb: {fileID: 2085523320244310822}
-  monsterData: {fileID: 11400000, guid: 297c3115f9588f145ae4902132af03c3, type: 2}
-  animator: {fileID: 4482995080583320837}
-  dieFlyTime: 2
-  dieFlySpeed: 10
-  shakeDuration: 0.2
-  shakePower: 3
 --- !u!95 &4482995080583320837
 Animator:
   serializedVersion: 7
@@ -205,3 +159,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &4594493380578320211
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6275407388002726386}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6
+--- !u!114 &3120945001380936582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6275407388002726386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450b9afcdc16b8744abe1bbc9ca88d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterRb: {fileID: 4594493380578320211}
+  monsterData: {fileID: 11400000, guid: bd0ed84437b3fa14389519fd0c297629, type: 2}
+  animator: {fileID: 4482995080583320837}
+  dieFlyTime: 2
+  dieFlySpeed: 10
+  shakeDuration: 0.2
+  shakePower: 3
+  patternCooldown: 4
+  patternIncreaseValue: 3
+  patternDuration: 2
+  knockbackDistance: 2
+  knockbackDuration: 0.15

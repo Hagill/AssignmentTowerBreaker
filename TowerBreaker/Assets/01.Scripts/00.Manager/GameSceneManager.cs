@@ -56,4 +56,10 @@ public class GameSceneManager : MonoBehaviour
         gameManager.GameExit();
         SceneChangeManager.ChangeScene(MainMenuScene);
     }
+
+    public void ShowGameOverPopup()
+    {
+        popupPanel.SetActive(true);
+        continueButton.gameObject.SetActive(false);
+    }
 }
