@@ -17,10 +17,8 @@ public class BackgroundLooper : MonoBehaviour
 
             pos.x += backgroundWidth * backgroundCount;
             collision.transform.position = pos;
-            return;
         }
-
-        if (((1 << currentGameObject.layer) &  stageLayer) != 0)
+        else if (((1 << currentGameObject.layer) &  stageLayer) != 0)
         {
             Destroy(currentGameObject);
         }

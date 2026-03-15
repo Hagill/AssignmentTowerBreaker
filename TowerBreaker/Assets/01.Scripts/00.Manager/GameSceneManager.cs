@@ -41,7 +41,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void OnGamePauseClicked()
     {
-        gameManager.GameExit();
+        gameManager.GamePause();
         popupPanel.SetActive(true);
     }
 
@@ -53,6 +53,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void OnMainMenuClicked()
     {
+        gameManager.GameExit();
         SceneChangeManager.ChangeScene(MainMenuScene);
     }
 }

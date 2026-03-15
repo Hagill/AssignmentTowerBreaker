@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using static ConstValue;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class MonsterDieState : CharacterDieState<Monster>
 {
@@ -10,8 +12,11 @@ public class MonsterDieState : CharacterDieState<Monster>
     public override void EnterState()
     {
         character.MonsterRb.constraints = RigidbodyConstraints2D.None;
-        character.MonsterGroup.Monsters.Remove(character);
-        character.MonsterGroup.ResizeCollider();
+        if (character.MonsterGroup != null)
+        {
+            character.MonsterGroup.Monsters.Remove(character);
+            character.MonsterGroup.ResizeCollider();
+        }
         character.InvokeOnMonsterDied();
         character.StartCoroutine(DieAnimation());
     }
@@ -19,12 +24,13 @@ public class MonsterDieState : CharacterDieState<Monster>
     protected IEnumerator DieAnimation()
     {
         yield return null;
-
+        character.Animator.SetTrigger(DieAnim);
         Vector2 direction = new Vector2(1, 1).normalized;
         character.MonsterRb.AddForce(direction * character.DieFlySpeed, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(character.DieFlyTime);
-
-        Object.Destroy(character.gameObject);
+        character.Animator.ResetTrigger(DieAnim);
+        character.transform.localRotation = Quaternion.identity;
+        EnemyObjectPoolManager.Instance.ReturnToPool(character.gameObject, character.OriginalPrefab);
     }
 }

@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Cinemachine;
+using TMPro;
 
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private Player player;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private GameObject stageGO;
+    [SerializeField] private TextMeshProUGUI currentStageText;
     private Stage currentStage;
     private Vector3 lastStagePosition;
     [SerializeField] private float stageWidth;
@@ -26,7 +28,13 @@ public class StageManager : MonoBehaviour
     private void Start()
     {
         CreateStage();
+        InputStageText();
         SetCameraTarget(currentStage.transform);
+    }
+
+    public void InputStageText()
+    {
+        currentStageText.text = $"Stage: {currentStageNumber}";
     }
 
     public void CreateStage()
@@ -71,6 +79,8 @@ public class StageManager : MonoBehaviour
         CreateStage();
 
         yield return MovePlayer(currentStage.PlayerSpawnPoint.position, playerMoveDuration);
+
+        InputStageText();
 
         SetCameraTarget(currentStage.transform);
     }

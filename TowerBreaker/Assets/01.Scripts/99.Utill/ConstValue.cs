@@ -10,5 +10,6 @@ public static class ConstValue
     #region Animation
     public const string AttackAnim = "Attack";
     public const string MoveAnim = "Move";
+    public const string DieAnim = "Die";
     #endregion
 }

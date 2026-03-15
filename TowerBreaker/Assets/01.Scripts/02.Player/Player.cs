@@ -130,11 +130,21 @@ public class Player : Character
 
         if (hits.Length > 0)
         {
+            var hit = hits[0];
+
             MonsterGroup group = hits[0].collider.GetComponent<MonsterGroup>();
             if (group != null && group.Monsters.Count > 0)
             {
                 group.Monsters[0].TakeDamage(playerData.attackPoint);
+                return;
             }
+
+            /*BossMonster boss = hit.collider.GetComponent<BossMonster>();
+            if (boss != null)
+            {
+                boss.TakeDamage(playerData.attackPoint);
+                return;
+            }*/
         }
     }
 

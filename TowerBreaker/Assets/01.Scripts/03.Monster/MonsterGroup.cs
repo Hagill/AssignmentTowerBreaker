@@ -27,6 +27,7 @@ public class MonsterGroup : MonoBehaviour
 
     public List<Monster> Monsters => monsters;
 
+
     public event Action OnAllMonsterDie;
 
     private void Awake()
@@ -46,13 +47,20 @@ public class MonsterGroup : MonoBehaviour
             int randomIndex = UnityEngine.Random.Range(0, monsterPrefabs.Count);
             Vector3 spawnPosition = new Vector3(startPosition.x + i * spawnXOffset, startPosition.y, startPosition.z);
 
-            GameObject monsterObject = Instantiate(monsterPrefabs[randomIndex], spawnPosition, Quaternion.identity, transform);
+            GameObject monsterObject = EnemyObjectPoolManager.Instance.SpawnFromPool(monsterPrefabs[randomIndex]);
+            monsterObject.transform.position = spawnPosition;
+            monsterObject.transform.rotation = Quaternion.identity;
+            monsterObject.transform.SetParent(transform);
+
             Monster monsterComponent = monsterObject.GetComponent<Monster>();
 
             if (monsterComponent != null)
             {
                 monsters.Add(monsterComponent);
+                monsterComponent.OnMonsterDied -= CheckAllMonsterDie;
                 monsterComponent.OnMonsterDied += CheckAllMonsterDie;
+                monsterComponent.ResetMonsterGroup(this);
+                monsterComponent.SetOriginalPrefab(monsterPrefabs[randomIndex]);
             }
         }
 

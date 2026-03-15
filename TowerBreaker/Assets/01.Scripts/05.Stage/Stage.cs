@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    private int currentStage;
+    private int currentStageNumber;
     private StageManager stageManager;
     [SerializeField] private Transform playerSpawnPoint;
     [SerializeField] private Transform monsterSpawnPoint;
@@ -13,12 +13,14 @@ public class Stage : MonoBehaviour
     [SerializeField] private GameObject monsterGroupGO;
     [SerializeField] private List<GameObject> bossMonsterPrefabs;
     [SerializeField] private LayerMask playerLayer;
-
+    [SerializeField] private int bossStageNumber; // 몇 스테이지마다 출현할 것인지
     private MonsterGroup monsterGroup;
 
     public Transform PlayerSpawnPoint => playerSpawnPoint;
 
     private bool isEnter;
+    private bool isBossStage;
+    private bool isBossDie;
 
     public event Action OnStageClear;
 
@@ -29,17 +31,17 @@ public class Stage : MonoBehaviour
 
     void Start()
     {
-        currentStage = stageManager.CurrentStageNumber;
+        currentStageNumber = stageManager.CurrentStageNumber;
 
-        if (currentStage == 1)
+        if (currentStageNumber == 1)
         {
             isEnter = true;
             SpawnMonster();
         }
-        /*else if (currentStage % 10 == 0)
+        else if(currentStageNumber % bossStageNumber == 0)
         {
-            SpawnBossMonster();
-        }*/
+            isBossStage = true;
+        }
     }
 
     public void InitStageManager(StageManager stageManager)
@@ -50,37 +52,78 @@ public class Stage : MonoBehaviour
     public void SpawnMonster()
     {
         GameObject monsterGroupInstance = Instantiate(monsterGroupGO, monsterSpawnPoint.position, Quaternion.identity);
+        monsterGroupInstance.transform.SetParent(transform);
         monsterGroup = monsterGroupInstance.GetComponent<MonsterGroup>();
         monsterGroup.OnAllMonsterDie += StageClear;
+    }
+
+    public void SpawnBossMonster()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, bossMonsterPrefabs.Count);
+        GameObject bossMonsterObject = EnemyObjectPoolManager.Instance.SpawnFromPool(bossMonsterPrefabs[randomIndex]);
+        bossMonsterObject.transform.position = bossSpawnPoint.position;
+        bossMonsterObject.transform.rotation = Quaternion.identity;
+        bossMonsterObject.transform.SetParent(transform);
+
+        Monster monsterComponent = bossMonsterObject.GetComponent<Monster>();
+
+        if(monsterComponent != null)
+        {
+            monsterComponent.OnMonsterDied -= EventBossDie;
+            monsterComponent.OnMonsterDied += EventBossDie;
+            monsterComponent.SetOriginalPrefab(bossMonsterPrefabs[randomIndex]);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject playerGO = collision.gameObject;
 
-        if (((1 << playerGO.layer) & playerLayer) != 0)
+        if (playerGO != null) 
         {
-            if (!isEnter)
+            if (((1 << playerGO.layer) & playerLayer) != 0)
             {
-                isEnter = true;
-                GameManager.Instance.GameStartWithWaiting();
-                SpawnMonster();
-            }
-            else
-            {
-                Player player = collision.GetComponent<Player>();
-                if ( player != null)
+                if (!isEnter)
                 {
-                    player.TakeDamage(1);
-                    monsterGroup.Knockback();
+                    isEnter = true;
+                    GameManager.Instance.GameStartWithWaiting();
+                    SpawnMonster();
+                    if (isBossStage)
+                    {
+                        SpawnBossMonster();
+                    }
+                }
+                else
+                {
+                    Player player = collision.GetComponent<Player>();
+                    if (player != null)
+                    {
+                        player.TakeDamage(1);
+                        monsterGroup.Knockback();
+                    }
                 }
             }
         }
     }
 
+    public void EventBossDie()
+    {
+        isBossDie = true;
+    }
+
     public void StageClear()
     {
-        Debug.Log("스테이지클리어");
+        if (isBossStage)
+        {
+            if (!isBossDie || (monsterGroup != null && monsterGroup.Monsters.Count >0))
+            {
+                return;
+            }
+            Debug.Log("보스 스테이지 클리어");
+            OnStageClear?.Invoke();
+            return;
+        }
+        Debug.Log("스테이지 클리어");
         OnStageClear?.Invoke();
     }
 

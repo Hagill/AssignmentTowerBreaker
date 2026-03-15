@@ -3,24 +3,28 @@ using UnityEngine;
 
 public class Monster : Character
 {
-    private CharacterStateManager<Monster> monsterStateManager;
-    [SerializeField] private Rigidbody2D monsterRb;
-    [SerializeField] private MonsterData monsterData;
-    [SerializeField] private Animator animator;
-    [SerializeField] private float dieFlyTime;  // 사망시 날라가는 연출 시간
-    [SerializeField] private float dieFlySpeed; // 사망시 날라가는 속도
-    
-    private CameraShaker cameraShaker;
-    [SerializeField] private float shakeDuration;
-    [SerializeField] private float shakePower;
+    protected CharacterStateManager<Monster> monsterStateManager;
+    [SerializeField] protected Rigidbody2D monsterRb;
+    [SerializeField] protected MonsterData monsterData;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected float dieFlyTime;  // 사망시 날라가는 연출 시간
+    [SerializeField] protected float dieFlySpeed; // 사망시 날라가는 속도
 
-    private MonsterGroup monsterGroup;
+    protected CameraShaker cameraShaker;
+    [SerializeField] protected float shakeDuration;
+    [SerializeField] protected float shakePower;
 
+    protected MonsterGroup monsterGroup;
+    protected GameObject originalPrefab;
+
+    public MonsterData MonsterData => monsterData;
     public MonsterGroup MonsterGroup => monsterGroup;
     public CharacterStateManager<Monster> MonsterStateManager => monsterStateManager;
     public Rigidbody2D MonsterRb => monsterRb;
+    public Animator Animator => animator;
     public float DieFlyTime => dieFlyTime;
     public float DieFlySpeed => dieFlySpeed;
+    public GameObject OriginalPrefab => originalPrefab;
     public MonsterIdleState IdleState { get; private set; }
     public MonsterDieState DieState { get; private set; }
 
@@ -38,11 +42,17 @@ public class Monster : Character
         }
     }
 
+    protected virtual void OnEnable()
+    {
+        InitCharacterData(monsterData.characterData);
+        monsterStateManager.ChangeState(IdleState);
+    }
+
     protected override void Start()
     {
         base.Start();
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
-        monsterGroup = GetComponentInParent<MonsterGroup>();
+        monsterStateManager.ChangeState(IdleState);
     }
 
     public override void Die()
@@ -69,8 +79,19 @@ public class Monster : Character
         OnMonsterDied?.Invoke();
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
+        monsterGroup = null;
         OnMonsterDied = null;
+    }
+
+    public void SetOriginalPrefab(GameObject original)
+    {
+        originalPrefab = original;
+    }
+
+    public void ResetMonsterGroup(MonsterGroup monsterGroup)
+    {
+        this.monsterGroup = monsterGroup;
     }
 }
