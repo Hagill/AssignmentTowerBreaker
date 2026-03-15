@@ -8,6 +8,7 @@ public class BossMonsterBineulI : Monster
     [SerializeField] private float patternDuration;
     [SerializeField] private float knockbackDistance;
     [SerializeField] private float knockbackDuration;
+    [SerializeField] private Transform itemDropPosition;
     [SerializeField] private GameObject itemPrefab;
 
     private float currentCooldown;
@@ -93,7 +94,7 @@ public class BossMonsterBineulI : Monster
     public override void Die()
     {
         float randomAttackPoint = Random.Range(1, 6);
-        GameObject itemObject = Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        GameObject itemObject = Instantiate(itemPrefab, itemDropPosition.position, Quaternion.identity);
         itemObject.GetComponent<Item>().SetAttackPoint(randomAttackPoint);
         base.Die();
     }

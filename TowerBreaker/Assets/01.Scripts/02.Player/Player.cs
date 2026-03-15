@@ -27,7 +27,7 @@ public class Player : Character
     [SerializeField] private float secondSkillCooldown;
     [SerializeField] private float thirdSkillCooldown;
 
-    private Item equippedItem;
+    private float equippedItemAttackPoint;
     private float equipAttackPoint;
 
     private float currentFirstSkillCooldown;
@@ -84,10 +84,12 @@ public class Player : Character
         currentSecondSkillCooldown = secondSkillCooldown;
         currentThirdSkillCooldown = thirdSkillCooldown;
 
-        equippedItem = inventoryManager.GetEquippedItem();
-        if (equippedItem != null)
+        equipAttackPoint = playerData.attackPoint;
+
+        equippedItemAttackPoint = inventoryManager.GetEquippedItem();
+        if(equippedItemAttackPoint > 0)
         {
-            SumEquipmentAttackPoint(equippedItem.ItemAttackPoint);
+            SumEquipmentAttackPoint(equippedItemAttackPoint);
         }
     }
 
@@ -147,7 +149,8 @@ public class Player : Character
             
             if (currentItem != null)
             {
-                InventoryManager.Instance.AddItem(currentItem);
+                InventoryManager.Instance.AddItem(currentItem.ItemAttackPoint);
+                Destroy(currentItem);
             }
         }
     }
@@ -230,14 +233,14 @@ public class Player : Character
             MonsterGroup group = hit.collider.GetComponent<MonsterGroup>();
             if (group != null && group.Monsters.Count > 0)
             {
-                group.Monsters[0].TakeDamage(playerData.attackPoint);//equipAttackPoint
+                group.Monsters[0].TakeDamage(equipAttackPoint);//equipAttackPoint
                 return;
             }
 
             Monster monster = hit.collider.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.TakeDamage(playerData.attackPoint);//equipAttackPoint
+                monster.TakeDamage(equipAttackPoint);//equipAttackPoint
                 return;
             }
         }
@@ -278,14 +281,14 @@ public class Player : Character
                 {
                     for (int i = 0; i < group.Monsters.Count; i++)
                     {
-                        group.Monsters[i].TakeDamage(playerData.attackPoint);//equipAttackPoint
+                        group.Monsters[i].TakeDamage(equipAttackPoint);//equipAttackPoint
                     }
                 }
 
                 Monster monster = hit.collider.GetComponent<Monster>();
                 if (monster != null)
                 {
-                    monster.TakeDamage(playerData.attackPoint);//equipAttackPoint
+                    monster.TakeDamage(equipAttackPoint);//equipAttackPoint
                 }
             }
         }

@@ -6,6 +6,8 @@ public class BossMonsterChiko : Monster
     [SerializeField] private float IncreaseSpeedValue;
     [SerializeField] private float knockbackDistance;
     [SerializeField] private float knockbackDuration;
+    [SerializeField] private Transform itemDropPosition;
+    [SerializeField] private GameObject itemPrefab;
 
     private bool isKnockback;
     private Coroutine coroutine;
@@ -67,5 +69,13 @@ public class BossMonsterChiko : Monster
         }
         transform.position = knockbackPosition;
         isKnockback = false;
+    }
+
+    public override void Die()
+    {
+        float randomAttackPoint = Random.Range(1, 6);
+        GameObject itemObject = Instantiate(itemPrefab, itemDropPosition.position, Quaternion.identity);
+        itemObject.GetComponent<Item>().SetAttackPoint(randomAttackPoint);
+        base.Die();
     }
 }

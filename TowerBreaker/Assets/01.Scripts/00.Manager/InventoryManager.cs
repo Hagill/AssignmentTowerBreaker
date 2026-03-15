@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class InventoryManager : SingletonManager<InventoryManager>
 {
-    private List<Item> itemList = new List<Item>();
-    private Item equippedItem;
+    private List<float> itemList = new List<float>();
+    private float equippedItemAttackPoint = 0f;
 
-    public void AddItem(Item item)
+    public void AddItem(float itemAttackPoint)
     {
-        itemList.Add(item);
+        itemList.Add(itemAttackPoint);
     }
 
-    public List<Item> GetItems()
+    public List<float> GetItems()
     {
         return itemList;
     }
 
-    public void EquipItem(Item item)
+    public void EquipItem(float itemAttackPoint)
     {
-        equippedItem = item;
+        equippedItemAttackPoint = itemAttackPoint;
     }
-    public Item GetEquippedItem()
+
+    public float GetEquippedItem()
     {
-        return equippedItem;
+        return equippedItemAttackPoint;
     }
 }

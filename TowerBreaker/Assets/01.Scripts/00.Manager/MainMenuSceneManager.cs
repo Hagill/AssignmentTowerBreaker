@@ -11,7 +11,8 @@ public class MainMenuSceneManager : MonoBehaviour
     [SerializeField] private Button closeInventoryButton;
 
     [Header("인벤토리 팝업")]
-    [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private GameObject inventoryUIGO;
+    [SerializeField] private InventoryUI inventoryUI;
 
     void Start()
     {
@@ -35,9 +36,9 @@ public class MainMenuSceneManager : MonoBehaviour
             exitButton.onClick.AddListener(OnExitClicked);
         }
 
-        if (inventoryUI != null)
+        if (inventoryUIGO != null)
         {
-            inventoryUI.SetActive(false);
+            inventoryUIGO.SetActive(false);
         }
     }
 
@@ -48,17 +49,18 @@ public class MainMenuSceneManager : MonoBehaviour
 
     public void OnInventoryClicked()
     {
-        if (inventoryUI != null)
+        if (inventoryUIGO != null)
         {
-            inventoryUI.SetActive(true);
+            inventoryUIGO.SetActive(true);
+            inventoryUI.LoadInventory(InventoryManager.Instance.GetItems());
         }
     }
 
     public void OnCloseClicked()
     {
-        if (inventoryUI != null)
+        if (inventoryUIGO != null)
         {
-            inventoryUI.SetActive(false);
+            inventoryUIGO.SetActive(false);
         }
     }
 

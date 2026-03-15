@@ -297,6 +297,9 @@ MonoBehaviour:
   monsterLayer:
     serializedVersion: 2
     m_Bits: 128
+  itemLayer:
+    serializedVersion: 2
+    m_Bits: 512
   attackPosition: {fileID: 825388142253409094}
   shakeDuration: 0.5
   shakePower: 5
