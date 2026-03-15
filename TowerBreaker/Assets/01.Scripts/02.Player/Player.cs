@@ -9,6 +9,7 @@ public class Player : Character
     private GameManager gameManager;
     private CameraShaker cameraShaker;
     private CharacterStateManager<Player> playerStateManager;
+    [SerializeField] private GameSceneManager gameSceneManager;
     [SerializeField] private StageManager stageManager;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerData playerData;
@@ -23,12 +24,15 @@ public class Player : Character
 
     private bool isKnockback;
 
-    public event Action OnHit;
+    private bool isHit;
+
     public event Action OnDie;
 
+    public GameSceneManager GameSceneManager => gameSceneManager;
     public GameManager GameManager => gameManager;
     public PlayerData PlayerData => playerData;
     public Rigidbody2D PlayerRb => playerRb;
+    public bool IsHit => isHit;
     public PlayerIdleState IdleState { get; private set; }
     public PlayerHitState HitState { get; private set; }
     public PlayerDieState DieState { get; private set; }
@@ -46,6 +50,7 @@ public class Player : Character
         }
 
         isKnockback = false;
+        isHit = false;
     }
 
     protected override void Start()
@@ -53,6 +58,7 @@ public class Player : Character
         gameManager = GameManager.Instance;
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
         playerStateManager.ChangeState(IdleState);
+        gameSceneManager.ChangeHp(Hp);
     }
 
     private void OnDisable()
@@ -178,12 +184,17 @@ public class Player : Character
         base.TakeDamage(damage);
         playerStateManager.ChangeState(HitState);
         cameraShaker.ShakeCamera(shakePower, shakeDuration);
-        OnHit?.Invoke();
+        isHit = true;
     }
 
     public override void Die()
     {
-        base.Die();
+        playerStateManager.ChangeState(DieState);
         OnDie?.Invoke();
+    }
+
+    public void ChangeIsHit(bool value)
+    {
+        isHit = value;
     }
 }

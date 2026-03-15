@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static ConstValue;
@@ -9,6 +10,8 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] private Button continueButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private GameObject popupPanel;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI popupTitleText;
 
     private void Awake()
     {
@@ -43,6 +46,13 @@ public class GameSceneManager : MonoBehaviour
     {
         gameManager.GamePause();
         popupPanel.SetActive(true);
+        popupTitleText.text = "Pause";
+
+        Color color;
+        if (ColorUtility.TryParseHtmlString("#494BCF", out color))
+        {
+            popupTitleText.color = color;
+        }
     }
 
     public void OnGameContinueClicked()
@@ -61,5 +71,12 @@ public class GameSceneManager : MonoBehaviour
     {
         popupPanel.SetActive(true);
         continueButton.gameObject.SetActive(false);
+        popupTitleText.text = "GameOver";
+        popupTitleText.color = Color.red;
+    }
+
+    public void ChangeHp(float currentHp)
+    {
+        hpText.text = $"Hp : {Mathf.RoundToInt(currentHp)}";
     }
 }

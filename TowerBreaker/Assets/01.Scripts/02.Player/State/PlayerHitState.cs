@@ -12,6 +12,7 @@ public class PlayerHitState : CharacterHitState<Player>
     public override void EnterState()
     {
         player.PlayerRb.linearVelocity = Vector2.zero;
+        player.GameSceneManager.ChangeHp(player.Hp);
         GameManager.Instance.GameWaiting();
         stateManager.ChangeState(player.IdleState);
     }

@@ -8,6 +8,7 @@ public class PlayerDieState : CharacterDieState<Player>
 
     public override void EnterState()
     {
-        base.EnterState();
+        character.GameManager.GameOver();
+        character.GameSceneManager.ShowGameOverPopup();
     }
 }
