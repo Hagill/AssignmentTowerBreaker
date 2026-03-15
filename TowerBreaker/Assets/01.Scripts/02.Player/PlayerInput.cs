@@ -41,17 +41,39 @@ public class PlayerInput : MonoBehaviour
 
     public void OnFirstSkillKey(InputAction.CallbackContext context)
     {
-
+        if (context.phase == InputActionPhase.Started && !GameManager.Instance.isStageClear && !player.IsHit)
+        {
+            if (player.CurrentFirstSkillCooldown <= 0)
+            {
+                CheckWaiting();
+                player.OnFirstSkill();
+            }
+        }
     }
 
     public void OnSecondSkillKey(InputAction.CallbackContext context)
     {
-
+        if (context.phase == InputActionPhase.Started && !GameManager.Instance.isStageClear && !player.IsHit)
+        {
+            if (player.CurrentSecondSkillCooldown <= 0)
+            {
+                CheckWaiting();
+                player.SecondSkillAnimation();
+                player.ResetSeconSkillCooldown();
+            }
+        }
     }
 
     public void OnThirdSkillKey(InputAction.CallbackContext context)
     {
-
+        if (context.phase == InputActionPhase.Started && !GameManager.Instance.isStageClear && !player.IsHit)
+        {
+            if (player.CurrentThirdSkillCooldown <= 0)
+            {
+                CheckWaiting();
+                player.OnThirdSkill();
+            }
+        }
     }
 
     public void CheckWaiting()

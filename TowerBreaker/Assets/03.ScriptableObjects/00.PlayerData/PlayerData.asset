@@ -20,3 +20,4 @@ MonoBehaviour:
   attackCooldown: 0.3
   attackRange: 1
   defenceRange: 0.8
+  secondSkillRange: 3

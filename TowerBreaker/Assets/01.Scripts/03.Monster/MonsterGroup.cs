@@ -20,6 +20,9 @@ public class MonsterGroup : MonoBehaviour
     [SerializeField] private float knockbackDistance;
     [SerializeField] private float knockbackDuration;
 
+    private bool cantMove;
+    private int currentStageNumber;
+
     private Coroutine coroutine;
     private List<Monster> monsters = new List<Monster>(); // 군집내 몬스터
 
@@ -27,6 +30,7 @@ public class MonsterGroup : MonoBehaviour
 
     public List<Monster> Monsters => monsters;
     public float MoveSpeed => moveSpeed;
+    public int CurrentStageNumber => currentStageNumber;
 
     public event Action OnAllMonsterDie;
 
@@ -34,11 +38,13 @@ public class MonsterGroup : MonoBehaviour
     {
         groupCollider = GetComponent<BoxCollider2D>();
         isKnockback = false;
+        cantMove = false;
     }
 
     void Start()
     {
         gameManager = GameManager.Instance;
+        GameManager.OnSetMonstersCanMove += SetCanMove;
 
         Vector3 startPosition = transform.position;
 
@@ -102,6 +108,7 @@ public class MonsterGroup : MonoBehaviour
 
     public void MoveGroup()
     {
+        if (cantMove) return;
         groupTransform.position += Vector3.left * moveSpeed * Time.deltaTime;
     }
 
@@ -146,8 +153,19 @@ public class MonsterGroup : MonoBehaviour
         moveSpeed = speedValue;
     }
 
+    public void SetCurrentStageNumber(int number)
+    {
+        currentStageNumber = number;
+    }
+
+    private void SetCanMove(bool value)
+    {
+        cantMove = value;
+    }
+
     private void OnDisable()
     {
         OnAllMonsterDie = null;
+        GameManager.OnSetMonstersCanMove -= SetCanMove;
     }
 }

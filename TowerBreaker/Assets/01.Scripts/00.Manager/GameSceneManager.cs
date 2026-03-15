@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +7,13 @@ using static ConstValue;
 public class GameSceneManager : MonoBehaviour
 {
     private GameManager gameManager;
+    [SerializeField] private Player player;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button mainMenuButton;
+    [SerializeField] private Image firstSkillCooldownImage;
+    [SerializeField] private Image secondSkillCooldownImage;
+    [SerializeField] private Image thirdSkillCooldownImage;
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI popupTitleText;
@@ -39,6 +44,16 @@ public class GameSceneManager : MonoBehaviour
         if (mainMenuButton != null)
         {
             mainMenuButton.onClick.AddListener(OnMainMenuClicked);
+        }
+    }
+
+    private void Update()
+    {
+        if (player != null)
+        {
+            firstSkillCooldownImage.fillAmount = 1f- (player.CurrentFirstSkillCooldown / player.FirstSkillCooldown);
+            secondSkillCooldownImage.fillAmount = 1f - (player.CurrentSecondSkillCooldown / player.SecondSkillCooldown);
+            thirdSkillCooldownImage.fillAmount = 1f - (player.CurrentThirdSkillCooldown / player.ThirdSkillCooldown);
         }
     }
 

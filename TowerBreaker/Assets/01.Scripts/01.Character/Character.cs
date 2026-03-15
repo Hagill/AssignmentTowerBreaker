@@ -20,6 +20,14 @@ public class Character : MonoBehaviour
         Hp = characterData.maxHp;
     }
 
+    protected void InitCharacterData(CharacterData characterData, int stageNumber = 1)
+    {
+        MoveSpeed = characterData.moveSpeed;
+        float increaseHp = characterData.maxHp + stageNumber;
+        MaxHp = increaseHp;
+        Hp = increaseHp;
+    }
+
     public virtual void TakeDamage(float damage)
     {
         Hp -= damage;

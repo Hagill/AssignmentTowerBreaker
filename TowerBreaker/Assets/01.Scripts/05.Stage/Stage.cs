@@ -18,6 +18,7 @@ public class Stage : MonoBehaviour
 
     private BossMonsterBineulI currentBossMonsterBineulI;
     private BossMonsterChiko currentBossMonsterChiko;
+
     public Transform PlayerSpawnPoint => playerSpawnPoint;
 
     private bool isEnter;
@@ -56,6 +57,7 @@ public class Stage : MonoBehaviour
         GameObject monsterGroupInstance = Instantiate(monsterGroupGO, monsterSpawnPoint.position, Quaternion.identity);
         monsterGroupInstance.transform.SetParent(transform);
         monsterGroup = monsterGroupInstance.GetComponent<MonsterGroup>();
+        monsterGroup.SetCurrentStageNumber(currentStageNumber);
         monsterGroup.OnAllMonsterDie += StageClear;
     }
 

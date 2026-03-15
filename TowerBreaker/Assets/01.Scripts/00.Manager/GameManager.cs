@@ -9,6 +9,14 @@ public class GameManager : SingletonManager<GameManager>
     public bool isWaiting { get; private set; }
     public bool isStageClear { get; private set; }
     public bool isGameOver { get; private set; }
+
+    public static Action<bool> OnSetMonstersCanMove;
+
+    public static void SetMonstersMove(bool canMove)
+    {
+        OnSetMonstersCanMove?.Invoke(canMove);
+    }
+
     public void GameStartWithWaiting()
     {
         isStart = true;

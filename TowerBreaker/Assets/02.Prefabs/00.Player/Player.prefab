@@ -288,6 +288,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926341e1aeab86b4f8b796249fc20fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameSceneManager: {fileID: 0}
+  stageManager: {fileID: 0}
   playerInput: {fileID: 6515948112874862732}
   playerData: {fileID: 11400000, guid: e5c3f047b3fafa243aeb2acecd5f6881, type: 2}
   playerRb: {fileID: 8335601973141758386}
@@ -298,6 +300,11 @@ MonoBehaviour:
   attackPosition: {fileID: 825388142253409094}
   shakeDuration: 0.5
   shakePower: 5
+  knockbackDuration: 0.1
+  firstSkillCooldown: 10
+  firstSkillDuration: 1
+  secondSkillCooldown: 5
+  thirdSkillCooldown: 15
 --- !u!114 &6515948112874862732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,15 +393,51 @@ MonoBehaviour:
     m_ActionId: cea88b6e-1711-456b-ba36-0cf8f7b6b4ed
     m_ActionName: 'Player/Move[/Keyboard/a]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6515948112874862732}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnFirstSkillKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f3a0d830-8043-4613-b24e-9f8513296fa7
     m_ActionName: 'Player/SkillAction1[/Keyboard/q]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6515948112874862732}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnSecondSkillKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 07b30e6c-c6da-4377-8e05-8b35fae3919c
     m_ActionName: 'Player/SkillAction2[/Keyboard/w]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6515948112874862732}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnThirdSkillKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b2f3dc1f-e923-4f36-bade-71aa6fcbd748
     m_ActionName: 'Player/SkillAction3[/Keyboard/e]'
   - m_PersistentCalls:

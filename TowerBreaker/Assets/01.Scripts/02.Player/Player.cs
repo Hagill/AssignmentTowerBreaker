@@ -21,10 +21,20 @@ public class Player : Character
     [SerializeField] private float shakeDuration;
     [SerializeField] private float shakePower;
     [SerializeField] private float knockbackDuration;
+    [SerializeField] private float firstSkillCooldown;
+    [SerializeField] private float firstSkillDuration;
+    [SerializeField] private float secondSkillCooldown;
+    [SerializeField] private float thirdSkillCooldown;
+
+    private float currentFirstSkillCooldown;
+    private float currentSecondSkillCooldown;
+    private float currentThirdSkillCooldown;
 
     private bool isKnockback;
 
     private bool isHit;
+
+    private Coroutine firstSkillCoroutine;
 
     public event Action OnDie;
 
@@ -32,6 +42,12 @@ public class Player : Character
     public GameManager GameManager => gameManager;
     public PlayerData PlayerData => playerData;
     public Rigidbody2D PlayerRb => playerRb;
+    public float FirstSkillCooldown => firstSkillCooldown;
+    public float SecondSkillCooldown => secondSkillCooldown;
+    public float ThirdSkillCooldown => thirdSkillCooldown;
+    public float CurrentFirstSkillCooldown => currentFirstSkillCooldown;
+    public float CurrentSecondSkillCooldown => currentSecondSkillCooldown;
+    public float CurrentThirdSkillCooldown => currentThirdSkillCooldown;
     public bool IsHit => isHit;
     public PlayerIdleState IdleState { get; private set; }
     public PlayerHitState HitState { get; private set; }
@@ -59,6 +75,9 @@ public class Player : Character
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
         playerStateManager.ChangeState(IdleState);
         gameSceneManager.ChangeHp(Hp);
+        currentFirstSkillCooldown = firstSkillCooldown;
+        currentSecondSkillCooldown = secondSkillCooldown;
+        currentThirdSkillCooldown = thirdSkillCooldown;
     }
 
     private void OnDisable()
@@ -69,6 +88,33 @@ public class Player : Character
     protected override void Update()
     {
         playerStateManager.Update();
+
+        if (currentFirstSkillCooldown >= 0)
+        {
+            currentFirstSkillCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            currentFirstSkillCooldown = 0f;
+        }
+
+        if (currentSecondSkillCooldown >= 0)
+        {
+            currentSecondSkillCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            currentSecondSkillCooldown = 0f;
+        }
+
+        if (currentThirdSkillCooldown >= 0)
+        {
+            currentThirdSkillCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            currentThirdSkillCooldown = 0f;
+        }
     }
 
     protected override void FixedUpdate()
@@ -177,9 +223,83 @@ public class Player : Character
         }
     }
 
+    // 지속시간동안 보스몬스터를 제외한 몬스터의 움직임을 멈추는 스킬
+    public void OnFirstSkill()
+    {
+        if (firstSkillCoroutine != null)
+        {
+            StopCoroutine(firstSkillCoroutine);
+        }
+
+        firstSkillCoroutine = StartCoroutine(FirstSkillCoroutine());
+    }
+
+    private IEnumerator FirstSkillCoroutine()
+    {
+        GameManager.SetMonstersMove(true);
+        currentFirstSkillCooldown = firstSkillCooldown;
+        yield return new WaitForSeconds(firstSkillDuration);
+        GameManager.SetMonstersMove(false);
+    }
+
+    // 광역 공격 스킬
+    public void OnSecondSkill()
+    {
+        Vector2 direction = Vector2.right;
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(attackPosition.position, direction, playerData.secondSkillRange, monsterLayer);
+
+        if (hits.Length > 0)
+        {
+            foreach (var hit in hits)
+            {
+                MonsterGroup group = hit.collider.GetComponent<MonsterGroup>();
+                if (group != null && group.Monsters.Count > 0)
+                {
+                    for (int i = 0; i < group.Monsters.Count; i++)
+                    {
+                        group.Monsters[i].TakeDamage(playerData.attackPoint);
+                    }
+                }
+
+                Monster monster = hit.collider.GetComponent<Monster>();
+                if (monster != null)
+                {
+                    monster.TakeDamage(playerData.attackPoint);
+                }
+            }
+        }
+    }
+
+    // 다른 두 개의 스킬 쿨타임을 초기화하는 스킬
+    public void OnThirdSkill()
+    {
+        currentThirdSkillCooldown = thirdSkillCooldown;
+
+        if (currentFirstSkillCooldown > 0)
+        {
+            currentFirstSkillCooldown = 0f;
+        }
+        
+        if (currentSecondSkillCooldown > 0)
+        {
+            currentSecondSkillCooldown = 0f;
+        }
+    }
+
+    public void ResetSeconSkillCooldown()
+    {
+        currentSecondSkillCooldown = secondSkillCooldown;
+    }
+
     public void AttackAnimation()
     {
         animator.SetTrigger(AttackAnim);
+    }
+
+    public void SecondSkillAnimation()
+    {
+        animator.SetTrigger(SecondSkillAnim);
     }
 
     public void Move()

@@ -44,6 +44,15 @@ public class Monster : Character
 
     protected virtual void OnEnable()
     {
+        /*if (monsterGroup != null)
+        {
+            InitCharacterData(monsterData.characterData, monsterGroup.CurrentStageNumber);
+        }
+        else
+        {
+            InitCharacterData(monsterData.characterData);
+        }*/
+
         InitCharacterData(monsterData.characterData);
         monsterStateManager.ChangeState(IdleState);
     }

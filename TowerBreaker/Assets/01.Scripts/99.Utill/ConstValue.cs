@@ -11,5 +11,6 @@ public static class ConstValue
     public const string AttackAnim = "Attack";
     public const string MoveAnim = "Move";
     public const string DieAnim = "Die";
+    public const string SecondSkillAnim = "SecondSkill";
     #endregion
 }
